@@ -107,6 +107,35 @@ $(document).ready(function () {
   });
 
 
+
+
+  // READ MORE OPTION FOR NOTIFICATION BELL ICON
+  $(document).on('click', '.read-more', function () {
+    $('.readMore_popup').modal('open');
+
+    //heading text
+    var existing_heading_text = $(this).closest('.list').find('.timeheading').text();
+    //content text
+    var existing_content_text = $(this).siblings('.list_content').text();
+    //owner text
+    var existing_owner = $(this).closest('.list').find('.timestamp').text();
+    //date text
+    var existing_date = $(this).closest('.list').find('.timestamp1 .dys').text();
+
+    if ($(this).closest('.list').find('.timeheading').hasClass('new_heading')) {
+      $('.readMore_popup h4').text(existing_heading_text.slice(3));
+    } else {
+      $('.readMore_popup h4').text(existing_heading_text);
+    }
+
+    $('.readMore_popup p.read_more_text').text(existing_content_text);
+    $('.readMore_popup .list_owner').text(existing_owner);
+    $('.readMore_popup .list_date').text(existing_date);
+
+  });
+
+
+
 });
 
 /*===== slider-carousel ====*/
@@ -197,11 +226,20 @@ function submit() {
 }
 
 $(document).ready(function () {
+  let flag = false;
   submit();
-  $('span.bell-icon i.fa.fa-bell').click(function () {
+  $('span.bell-icon i.fa.fa-bell, span.bell-icon .badge-num').click(function () {
+    if (flag) {
+      $('span.badge-num').remove();
+      $('.alertBadge').remove();
+      $('.timeheading').removeClass('new_heading');
+      $('.alertDrop.alertsDropdown-backstage .list_content strong .bold_text').unwrap()
+      $('.notify-list li').removeClass('order1');
+    }
     $('span.bell-icon i.fa.fa-bell').next().toggleClass('active')
     $('.action-transparent-bg').show();
     $('.alertsDropdown-backstage').click(function () { $('.notification_list').hide() })
+    flag = true;
     return false
   })
 
@@ -216,8 +254,6 @@ $(document).ready(function () {
       "7": "order7",
       "3": "order3",
       "1": "order1"
-
-
     }
 
     //var UnSortList = ["order10", "order7", "order3", "order1"];
@@ -288,6 +324,81 @@ $(document).ready(function () {
   }
 
   dynamic_pin_top();
+
+
+  $(document).on('click', 'li.editPost_notification', function () {
+    $('#addPost').modal('open');
+
+    //edit post dynamic text appned on modal
+    var heading_text = $(this).closest('.list').find('.timeheading').text();
+    var content_text = $(this).closest('.list').find('.list_content').text();
+    $('input#hiredate2').val('')
+    if ($(this).closest('.list').find('.timeheading').hasClass('new_heading')) {
+      $('#alertsubject').val(heading_text.slice(3));
+    } else {
+      $('#alertsubject').val(heading_text);
+    }
+    //set content to TinyEditor 
+    var iframe = $("#alertmessage_ifr");
+    $("#tinymce[data-id=alertmessage]", iframe.contents()).text(content_text)
+
+  })
+
+  function word_count() {
+    var list_length = $('.list').length;
+    for (var i = 0; i < list_length; i++) {
+      var single_list_length = $('.list_content:eq(' + i + ')').text().length;
+      var single_list_heading_length = $('.list_content:eq(' + i + ')').closest('.list').find('.new_heading').text().length;
+
+      if (single_list_length > 90 || single_list_heading_length > 25) {
+        $('.list_content:eq(' + i + ')').siblings('.read-more').remove();
+        $('.list_content:eq(' + i + ')').after('<div class="read-more"> READ MORE &gt;</div>');
+      }
+    }
+  }
+
+  //Bulletin Menu - add/append post into top of list script
+  $(document).on('click', '#add_postModal a.orangeButton.modal-close', function () {
+    //get edit modal -> subject & message field
+    var subject_text = $(this).closest('#alertform').find('#alertsubject2').val();
+    //var message_text = $(this).closest('#alertform').find('#notecontent2').val();
+
+    var iframe = $("#alertmessage_backstage_ifr");
+    var message_text = $("#tinymce[data-id=alertmessage_backstage]", iframe.contents()).text();
+
+    //pin to top checkboxxx Add Post = start--------------------------------------
+    if ($(this).closest('.islandContent').find('input#pinTop').prop('checked')) {
+      $('ul.notify-list').prepend('<li class="list order1 newest_list pintoTop"><div class="alertEdit notify-alert" ><form method="post" action="#"> <div class="actionsButton"><img class="dot1" src="https://cedrsolutions.com/membership/sandbox4/base_camp/images/dots.svg"><ul class="noteList z-depth-2 active notification_list" style="display: none;"><li class="n-list pin_top"><span><img src="Unpin.svg" class="unpin_black" style="width: 19px; top: 5px; position: relative;"> &nbsp; Unpin</span><input type="checkbox"></li><li class="n-list editPost_notification add_post_btn"><i class="fa fa-edit center modal-trigger"></i><span class="pin_left">Edit</span></li> <li class="n-list addPost_delete"><i class="fa fa-trash"></i><span class="pin_left">Delete</span></li></ul></div></form></div><div><span class="pin_span"> <img class="pin" src="https://www.cedrsolutions.com/membership/sandbox4/static_bulletin/pin.png" style="width: 23px;"></span> <span class="timeheading new_heading"><span class="alertBadge">NEW</span> ' + subject_text + '</span></div><div><span class="timestamp" > Ronald Gallo</span></div><div class="list_content"><strong><span class="bold_text">' + message_text + '</span></strong></div><div class="timestamp1"><i class="fa fa-clock-o" aria-hidden="true"></i><span class="dys">&nbsp;Today</span></div></li>');
+    } else {
+      $('ul.notify-list').prepend('<li class="list newest_list"><div class="alertEdit notify-alert" ><form method="post" action="#"> <div class="actionsButton"><img class="dot1" src="https://cedrsolutions.com/membership/sandbox4/base_camp/images/dots.svg"><ul class="noteList z-depth-2 active notification_list" style="display: none;"><li class="n-list pin_top"><span><img class="" src="https://www.cedrsolutions.com/membership/sandbox4/static_bulletin/pin.svg" style="width: 18px; top: 4px; position: relative;"><span class="pin_left">Pin to Top</span></span><input type="checkbox"></li><li class="n-list editPost_notification add_post_btn"><i class="fa fa-edit center modal-trigger"></i><span class="pin_left">Edit</span></li> <li class="n-list addPost_delete"><i class="fa fa-trash"></i><span class="pin_left">Delete</span></li></ul></div></form></div><div><span class="pin_span"> <img class="pin" src="https://www.cedrsolutions.com/membership/sandbox4/static_bulletin/pin.png" style="width: 23px;"></span> <span class="timeheading new_heading"><span class="alertBadge">NEW</span> ' + subject_text + '</span></div><div><span class="timestamp" > Ronald Gallo</span></div><div class="list_content"><strong><span class="bold_text">' + message_text + '</span></strong></div><div class="timestamp1"><i class="fa fa-clock-o" aria-hidden="true"></i><span class="dys">&nbsp;Today</span></div></li>');
+    }
+    //pin to top checkboxxx Add Post = end--------------------------------------
+
+    // $('ul.notify-list').prepend('<li class="list order1 newest_list"><div class="alertEdit notify-alert" ><form method="post" action="#"> <div class="actionsButton"><img class="dot1" src="dots.svg"><ul class="noteList z-depth-2 active notification_list" style="display: none;"><li class="n-list pin_top"><span><img class="" src="pin.svg" style="width: 18px; top: 4px; position: relative;"><span class="pin_left">Pin to Top</span></span><input type="checkbox"></li><li class="n-list editPost_notification add_post_btn"><i class="fa fa-edit center modal-trigger"></i><span class="pin_left">Edit</span></li> <li class="n-list addPost_delete"><i class="fa fa-trash"></i><span class="pin_left">Delete</span></li></ul></div></form></div><div><span class="pin_span"> <img class="pin" src="pin.png" style="width: 23px;"></span> <span class="timeheading new_heading" style="margin-bottom: -9px;"><span class="alertBadge">NEW</span> '+ subject_text +'</span></div><div><span class="timestamp" > Ronald Gallo</span></div><div class="list_content"><strong><span class="bold_text">'+ message_text + '</span></strong></div><div class="timestamp1"><i class="fa fa-clock-o" aria-hidden="true"></i><span class="dys">&nbsp;Today</span></div></li>');
+
+    $('#alerts').append('<span style="" class="alertNumber">1</span>');
+
+    //$('.bold_text').unwrap()
+    //alert('da')
+
+    //$()
+
+
+    dynamic_pin_top();
+    word_count();
+
+    //11) Vertical & Horizontal. Add Post Modal doesn't clear: https://www.screencast.com/t/bnU8HusCXQRa   
+    //End Date field clear
+    $('#add_postModal').find('#hiredate2').val('');
+    // Pin post to top? & Notify employees via email? clear
+    $('#add_postModal input#notifyEmail, #add_postModal input#pinTop').prop('checked', false);
+    //tiny editor empty
+    var iframe = $("#alertmessage_ifr");
+    $("#tinymce[data-id=alertmessage]", iframe.contents()).text('');
+    //disabled Add button
+    $(this).addClass('disabled-button');
+  });
+
 });
 
 

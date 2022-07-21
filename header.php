@@ -963,6 +963,7 @@ getJWTsso("9999", "<? echo $office_cust1; ?>", "<? echo $user_cust1; ?>",
 						</div>	
 						<div class="col m8 right-align right-icons">
 							<span href="#" class='active bell-icon'>
+								<span class='badge-num'>1</span>
 								<i class="fa fa-bell" aria-hidden="true"></i>
 								<span class="alertsDropdown-backstage alertDrop for_desktop for_mobile z-depth-1 bulltin-block">
                                     <div class="add-post ">
@@ -974,7 +975,7 @@ getJWTsso("9999", "<? echo $office_cust1; ?>", "<? echo $user_cust1; ?>",
                                                 <form method="post"
                                                     action="https://www.cedrsolutions.com/membership/alert">
                                                     <div class="actionsButton">
-                                                        <img class="dot1" src="https://cedrsolutions.com/membership/sandbox4/static_bulletin/dots.svg">
+														<i class="dot1 fa fa-ellipsis-v" aria-hidden="true"></i>
                                                         <ul class="noteList z-depth-2 active notification_list"
                                                             style="display: none;">
                                                             <li class="n-list pin_top">
@@ -1016,7 +1017,7 @@ getJWTsso("9999", "<? echo $office_cust1; ?>", "<? echo $user_cust1; ?>",
                                                 <form method="post"
                                                     action="https://www.cedrsolutions.com/membership/alert">
                                                     <div class="actionsButton">
-                                                        <img class="dot1" src="https://cedrsolutions.com/membership/sandbox4/static_bulletin/dots.svg">
+														<i class="dot1 fa fa-ellipsis-v" aria-hidden="true"></i>
                                                         <ul class="noteList z-depth-2 active notification_list"
                                                             style="display: none;">
                                                             <li class="n-list pin_top">
@@ -1059,7 +1060,7 @@ getJWTsso("9999", "<? echo $office_cust1; ?>", "<? echo $user_cust1; ?>",
                                                 <form method="post"
                                                     action="https://www.cedrsolutions.com/membership/alert">
                                                     <div class="actionsButton">
-                                                        <img class="dot1" src="https://cedrsolutions.com/membership/sandbox4/static_bulletin/dots.svg">
+													<i class="dot1 fa fa-ellipsis-v" aria-hidden="true"></i>
                                                         <ul class="noteList z-depth-2 active notification_list"
                                                             style="display: none;">
                                                             <li class="n-list pin_top">
@@ -1090,7 +1091,7 @@ getJWTsso("9999", "<? echo $office_cust1; ?>", "<? echo $user_cust1; ?>",
                                             <div class="timestamp"><span> Maria Carraleno</span></div>
                                             <div class="list_content">This is how older posts will be displayed, not bold. It will display three lines and then...</div>
 											
-                                            
+                                            <div class="read-more"> READ MORE &gt;</div>
                                             <div class="timestamp1">
                                                 <i class="fa fa-clock-o" aria-hidden="true"></i><span
                                                     class="dys"><input class="dysVal"  Ispin="0" value="10" type="hidden"/>&nbsp;10 day ago</span>

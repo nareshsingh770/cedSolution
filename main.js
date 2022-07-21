@@ -1,4 +1,25 @@
 $(document).ready(function () {
+    var ednData = $('input#hiredate3')
+    var subject = $('input#alertsubject2')
+    var msg = $('input#alertsubject2')
+
+
+
+
+
+
+    function validateAddPost(tinyCotnent) {
+        if (ednData.val() != '' && subject.val() != '' && tinyCotnent != '')
+            $('#back-stage a.modal-close.orangeButton').removeClass('disabled-button')
+        else return false
+    }
+
+
+    $('header.base_camp_header .right-icons .alertsDropdown-backstage li .addPost_delete').click(function () {
+        $(this).closest('li.list').hide();
+    })
+
+
     if ($("#post-214")) {
         $("body").trigger("click");
         $(".eml label").addClass("active");
@@ -15,14 +36,12 @@ $(document).ready(function () {
         } else {
             $("#addPost .alertSaveButton").removeClass("disabled-button");
         }
-        //console.log('sshi')
     }
 
 
 
     $("#add2_cancel_btn .center button:last-child").click(function () {
         $('#add_postModal').modal('close');
-        //$('#addPost .alertSaveButton').addClass('disabled-button disabledbtn'); 
     });
     $('div#noteModal .cancelButton').click(function () {
         setTimeout(() => {
@@ -47,9 +66,10 @@ $(document).ready(function () {
         content_style: "body {color: #969696;}",
         convert_urls: false,
         init_instance_callback: function (editor) {
-            editor.on("keyup", function () {
+            editor.on("keyup", function (e) {
                 addAlertModal();
-                //console.log('editor hbbh sshi')        
+                validateAddPost(e.currentTarget.textContent)
+                // console.log(e.currentTarget.textContent)
             });
             editor.on('ExecCommand', function (e) {
                 addAlertModal();
